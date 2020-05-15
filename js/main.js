@@ -1,3 +1,15 @@
+$(function(){
+    $('.js-modal-open').on('click',function(){
+        $('.js-modal').fadeIn();
+        return false;
+    });
+    $('.js-modal-close').on('click',function(){
+        $('.js-modal').fadeOut();
+        return false;
+    });
+});
+
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyCmdOMPI8XDQg_jpLCFnw7SCJBQ0rx2XNQ",
@@ -23,13 +35,7 @@ var firebaseConfig = {
     let fileButton = document.querySelector("#fileButton")
 
     fileButton.addEventListener("change",function(e){
-        console.log(e);
-        //ファイルを取得
-        let file = e.target.files[0];
-        //storage ref を作成
-        let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
-        //ファイルのアップロード
-        storageRef.put(file);
+        
     });
 
   const refText = firebase.database().ref();
@@ -56,20 +62,41 @@ var firebaseConfig = {
     };
     refText.push(msg);
     
+    
 }
 
 
 
 //  ボタン送信
-$("#send").on("click",function(){
-    pushFun();
-});
+    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
+    $("#send").on("click",function(){
+        pushFun();
+    //画像うｐ
+    //ファイルを取得
+    let file = e.target.files[0];
+    //storage ref を作成
+    let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
+    //ファイルのアップロード
+    storageRef.put(file);
+
+        });
+    });
+
 //  Ctrl+Enter送信
-$("#text").on("keydown",function(e){
+    fileButton.addEventListener("change",function(eb){   //ファイルを選択→送信でput〇
+    $("#text").on("keydown",function(e){
     if(e.ctrlKey && e.keyCode==13){
         pushFun();
+    //画像うｐ
+    //ファイルを取得
+    let file = eb.target.files[0];
+    //storage ref を作成
+    let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
+    //ファイルのアップロード
+    storageRef.put(file);
     }
-});
+        });
+    });
 
 
 

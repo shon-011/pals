@@ -89,7 +89,6 @@ console.log(downRef);
 
 
 
-var blob;
 
 
 
@@ -103,16 +102,15 @@ var blob;
     ******************************************************************************************/
 
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
-        console.log(e);
+       
         $("#send").on("click",function(){
             console.log(e);
         //ファイルを取得
         let file = e.target.files[0];
-         
-          //storage ref を作成
-          let storageRef = firebase.storage().ref('test/' +file.name);
-     //ファイルのアップロード
-     storageRef.put(file);
+        //storage ref を作成
+        let storageRef = firebase.storage().ref('test/' +file.name);
+        //ファイルのアップロード
+            storageRef.put(file);
     });
 
      /**************************************************************************************
