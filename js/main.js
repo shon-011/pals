@@ -10,13 +10,35 @@ var firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    var storage = firebase.storage();
 
-  const ref = firebase.database().ref();
+
+
+   
+
+      
+
+    let fileButton = document.querySelector("#fileButton")
+
+    fileButton.addEventListener("change",function(e){
+        console.log(e);
+        //ファイルを取得
+        let file = e.target.files[0];
+        //storage ref を作成
+        let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
+        //ファイルのアップロード
+        storageRef.put(file);
+    });
+
+  const refText = firebase.database().ref();
 
 
 
 //送信の関数（pushFun）
   function pushFun(){ 
+    const imgUrl = ''
     const uname = $("#uname").val();
     const text = $("#text").val();
             let now = new Date();  //Time取得
@@ -27,11 +49,12 @@ var firebaseConfig = {
     const time = `${timeH}:${timeM}`;         //時間：分を"time"に入れる
         
      const msg = {
+        imgUrl: imgUrl, 
         uname: uname,
         text: text,
         time: time
     };
-    ref.push(msg);
+    refText.push(msg);
     
 }
 
@@ -51,21 +74,22 @@ $("#text").on("keydown",function(e){
 
 
 // 受信
-ref.on("child_added",function(data){
+refText.on("child_added",function(data){
     const v = data.val();
     const k = data.key;
-
-
+    
+    const dataImg = v.imgUrl
     const dataTime = v.time;
     const dataUname = v.uname;
     const dataText = v.text;
     const dataAll = `<div class="card">
-                        <div clas="imgcont"><img src=""></div>
+                        <div id="imgcont"><img src="${dataImg}" alt=""></div>
                         <p class="name">${dataUname}<span> ${dataTime}</span></p><br>
                         <p class="comment">${dataText}</p>
                      </div>`
     
     $("#output").prepend(dataAll);
+    console.log(dataImg)
 
 
 
