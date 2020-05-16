@@ -22,12 +22,12 @@
 <div class="display">
     <div class="field">
         <div id="output">
-            <img id="img1" src="" alt="">
+            
         </div>
     </div>
 </div>
 
-
+<button id="btn">test</button>
 
 
     <!-- The core Firebase JS SDK is always required and must be listed first  -->
@@ -58,6 +58,11 @@ var firebaseConfig = {
   
 // Get a reference to the storage service, which is used to create references in your storage bucket
     var storage = firebase.storage();
+// Create a storage reference from our storage service
+var storageRef = storage.ref();
+
+
+
 
     
     let fileButton = document.querySelector("#fileButton")
@@ -76,15 +81,25 @@ var firebaseConfig = {
 
 
 
-const downRef = firebase.storage().ref().child("1.jpg");
-console.log(downRef);
-
 
 /*****************************************************************************************
  * 
  * 
  * ファイルのURL取得
 ******************************************************************************************/
+//非同期処理
+
+
+let hako;
+const test = function(){
+    console.log(hako);
+}
+
+$("#btn").on("click",function(){
+    setTimeout(hako = 1,1000);
+    
+    test();
+})
 
 
 
@@ -104,13 +119,15 @@ console.log(downRef);
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
        
         $("#send").on("click",function(){
-            console.log(e);
+            
         //ファイルを取得
         let file = e.target.files[0];
-        //storage ref を作成
-        let storageRef = firebase.storage().ref('test/' +file.name);
-        //ファイルのアップロード
-            storageRef.put(file);
+        //storage ref を作成  //ファイルのアップロード
+         firebase.storage().ref('test1/' ).child(file.name).put(file).then(snapshot => {
+             const url = snapshot.ref.getDownloadURL();
+             console.log(url);
+    
+         });
     });
 
      /**************************************************************************************
@@ -121,6 +138,53 @@ console.log(downRef);
       
         
     });
+
+
+
+
+    let url;
+//  ボタン送信
+    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
+        console.log(e)
+    $("#send").on("click",function(){
+    //画像うｐ
+    //ファイル名を取得
+    let file = e.target.files[0];
+    //storage ref を作成 //ファイルのアップロード
+    let storageRef = firebase.storage().ref('shon/').child(file.name).put(file).then(snapshot => {
+        let url = snapshot.ref.getDownloadURL();
+        console.log(url);
+        pushDB();
+    });
+
+        });
+    });
+
+    
+//DBに送信の関数（pushFun）
+  function pushDB(){ 
+    const imgUrl = url;
+    const uname = $("#uname").val();
+    const text = $("#text").val();
+            let now = new Date();  //Time取得
+            let timeH = now.getHours();     //時間
+            let timeM = now.getMinutes();      //分
+                if(timeH<10){timeH ="0" + timeH}     //数字が一桁の場合０をつける。
+                if(timeM<10){timeM ="0" + timeM}
+    const time = `${timeH}:${timeM}`;         //時間：分を"time"に入れる
+        
+     const msg = {
+        imgUrl: imgUrl, 
+        uname: uname,
+        text: text,
+        time: time
+    };
+    refText.push(msg);
+    
+    
+}
+
+
 
     
    

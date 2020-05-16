@@ -41,10 +41,9 @@ var firebaseConfig = {
   const refText = firebase.database().ref();
 
 
-
-//送信の関数（pushFun）
-  function pushFun(){ 
-    const imgUrl = ''
+//DBに送信の関数（pushFun）
+  function pushDB(){ 
+    const imgUrl = "";
     const uname = $("#uname").val();
     const text = $("#text").val();
             let now = new Date();  //Time取得
@@ -66,34 +65,39 @@ var firebaseConfig = {
 }
 
 
-
+let url;
 //  ボタン送信
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
+        console.log(e)
     $("#send").on("click",function(){
-        pushFun();
     //画像うｐ
-    //ファイルを取得
+    //ファイル名を取得
     let file = e.target.files[0];
-    //storage ref を作成
-    let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
-    //ファイルのアップロード
-    storageRef.put(file);
-
+    //storage ref を作成 //ファイルのアップロード
+    let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
+        let url = snapshot.ref.getDownloadURL().then(url =>{
+            console.log(url);
+            pushDB();
         });
     });
-
+   
+        });
+    });
+    
 //  Ctrl+Enter送信
-    fileButton.addEventListener("change",function(eb){   //ファイルを選択→送信でput〇
+    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
     $("#text").on("keydown",function(e){
     if(e.ctrlKey && e.keyCode==13){
-        pushFun();
     //画像うｐ
-    //ファイルを取得
+    //ファイル名を取得
     let file = eb.target.files[0];
-    //storage ref を作成
-    let storageRef = firebase.storage().ref('shon_wolrd/' +file.name);
-    //ファイルのアップロード
-    storageRef.put(file);
+    //storage ref を作成 //ファイルのアップロード
+    let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
+        let url = snapshot.ref.getDownloadURL();
+             console.log(url);
+             pushDB();
+    });
+    
     }
         });
     });
@@ -116,7 +120,7 @@ refText.on("child_added",function(data){
                      </div>`
     
     $("#output").prepend(dataAll);
-    console.log(dataImg)
+    
 
 
 
