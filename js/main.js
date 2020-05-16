@@ -41,9 +41,21 @@ var firebaseConfig = {
   const refText = firebase.database().ref();
 
 
-//DBに送信の関数（pushFun）
-  function pushDB(){ 
-    const imgUrl = "";
+
+
+
+
+//  ボタン送信
+    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
+        console.log(e)
+    $("#send").on("click",function(){
+    //画像うｐ
+    //ファイル名を取得
+    let file = e.target.files[0];
+    //storage ref を作成 //ファイルのアップロード
+    let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
+        let url = snapshot.ref.getDownloadURL().then(url =>{
+            const imgUrl = url;
     const uname = $("#uname").val();
     const text = $("#text").val();
             let now = new Date();  //Time取得
@@ -60,47 +72,15 @@ var firebaseConfig = {
         time: time
     };
     refText.push(msg);
-    
-    
-}
-
-
-let url;
-//  ボタン送信
-    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
-        console.log(e)
-    $("#send").on("click",function(){
-    //画像うｐ
-    //ファイル名を取得
-    let file = e.target.files[0];
-    //storage ref を作成 //ファイルのアップロード
-    let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
-        let url = snapshot.ref.getDownloadURL().then(url =>{
-            console.log(url);
-            pushDB();
-        });
+        }
+           
+        );
     });
    
         });
     });
     
-//  Ctrl+Enter送信
-    fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
-    $("#text").on("keydown",function(e){
-    if(e.ctrlKey && e.keyCode==13){
-    //画像うｐ
-    //ファイル名を取得
-    let file = eb.target.files[0];
-    //storage ref を作成 //ファイルのアップロード
-    let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
-        let url = snapshot.ref.getDownloadURL();
-             console.log(url);
-             pushDB();
-    });
-    
-    }
-        });
-    });
+
 
 
 
