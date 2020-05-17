@@ -1,50 +1,24 @@
-body{
-    background: #34363b;
-    
-}
+
 .box1{
     background: #ED5466;
 }
 
 .box2{
-    background: #505154;
+    background: white;
 }
 .title{
     color: white;
 }
-
-
-
-
-
-
-
-
-
-
-.content{
-    margin: 0 auto;
-    padding: 40px;
+.box3{
+    background-color: rgba(43, 48, 56, 0.8);
+    border-radius: 20px;
+    
 }
-.modal{
-    display: none;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-.modal__bg{
-    background: rgba(0,0,0,0.5);
-    height: 100vh;
-    position: absolute;
-    width: 100%;
-}
-.modal__content{
-    background: #fff;
-    left: 50%;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    width: 60%;
-}
+
+
+
+
+
+
+
+

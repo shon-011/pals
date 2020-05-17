@@ -48,7 +48,9 @@ var firebaseConfig = {
 //  ボタン送信
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
         console.log(e)
+        $("file-label").html(e.target.files[0])
     $("#send").on("click",function(){
+        
     //画像うｐ
     //ファイル名を取得
     let file = e.target.files[0];
@@ -72,11 +74,14 @@ var firebaseConfig = {
         time: time
     };
     refText.push(msg);
+    
         }
            
         );
     });
-   
+    
+    
+    
         });
     });
     
