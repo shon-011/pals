@@ -1,22 +1,21 @@
 body{
     background: #34363b;
+    
+}
+.box1{
+    background: #ED5466;
+}
+
+.box2{
+    background: #505154;
+}
+.title{
     color: white;
 }
-.field{
-    background: #2d2e319f;
-    padding: 10px;
-}
 
 
-.card{
-    width: 30%;
-    height: 300px;
-   background: rgba(218, 33, 104, 0.616);
-   margin: 30px;
-}
-span{
-    font-size: 10px;
-}
+
+
 
 
 

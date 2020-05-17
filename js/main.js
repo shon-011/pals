@@ -93,11 +93,16 @@ refText.on("child_added",function(data){
     const dataTime = v.time;
     const dataUname = v.uname;
     const dataText = v.text;
-    const dataAll = `<div class="card">
-                        <div id="imgcont"><img src="${dataImg}" alt=""></div>
-                        <p class="name">${dataUname}<span> ${dataTime}</span></p><br>
-                        <p class="comment">${dataText}</p>
-                     </div>`
+    const dataAll = `<div class="col mb-4">
+                     <div class="card">
+                        <img src="${dataImg}" class="card-img-top" alt="">
+                     <div class="card-body">
+                        <h5 class="card-title">${dataUname}</h5>
+                        <p class="card-text">${dataText}</p>
+                        <p class="card-text"><small class="text-muted">${dataTime}</small></p>   
+                     </div>
+                     </div>
+                     </div> `
     
     $("#output").prepend(dataAll);
     
