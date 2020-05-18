@@ -1,5 +1,6 @@
 body{
     background: rgba(43, 48, 56, 0.8);
+    
 }
 .box1{
     background: #ED5466;
@@ -39,6 +40,12 @@ body{
       }
   
   }
+
+
+.result img{
+    width: 100%;
+    height: auto;
+}
  
 
     

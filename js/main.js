@@ -41,12 +41,26 @@ var firebaseConfig = {
 //  ボタン送信
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
         console.log(e)
+
+        $('img').remove();
+        var file = $(this).prop('files')[0];
+        if(!file.type.match('image.*')){
+            return;
+        }
+        var fileReader = new FileReader();
+        fileReader.onloadend = function() {
+            $('#result').html('<img  src="' + fileReader.result + '"/>');
+        }
+        fileReader.readAsDataURL(file);
+        
+
         $("file-label").html(e.target.files[0])
     $("#send").on("click",function(){
         
     //画像うｐ
     //ファイル名を取得
     let file = e.target.files[0];
+   
     //storage ref を作成 //ファイルのアップロード
     let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
         let imgpath = firebase.storage().ref('shon_wolrd/').child(file.name).fullPath
