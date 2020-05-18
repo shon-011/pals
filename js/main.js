@@ -1,13 +1,6 @@
-$(function(){
-    $('.js-modal-open').on('click',function(){
-        $('.js-modal').fadeIn();
-        return false;
-    });
-    $('.js-modal-close').on('click',function(){
-        $('.js-modal').fadeOut();
-        return false;
-    });
-});
+$("#btn-home").on("click",function(){
+    location.reload();
+})
 
 
 // Your web app's Firebase configuration
@@ -56,8 +49,9 @@ var firebaseConfig = {
     let file = e.target.files[0];
     //storage ref を作成 //ファイルのアップロード
     let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
-      
+        let imgpath = firebase.storage().ref('shon_wolrd/').child(file.name).fullPath
         let url = snapshot.ref.getDownloadURL().then(url =>{
+            const path = file.name;
             const imgUrl = url;
     const uname = $("#uname").val();
     const text = $("#text").val();
@@ -71,13 +65,14 @@ var firebaseConfig = {
     const time = `${getMonth}/${getDate}   ${timeH}:${timeM}`;         //時間：分を"time"に入れる
         
      const msg = {
+         imgpath:path,
         imgUrl: imgUrl, 
         uname: uname,
         text: text,
         time: time
     };
     refText.push(msg);
-    console.log(imgst);
+   
         }
            
         );
@@ -98,7 +93,8 @@ refText.on("child_added",function(data){
     const v = data.val();
     const k = data.key;
     
-    const dataImg = v.imgUrl
+    const dataImgpath = v.imgpath;
+    const dataImg = v.imgUrl;
     const dataTime = v.time;
     const dataUname = v.uname;
     const dataText = v.text;
@@ -118,8 +114,9 @@ $("#del").on("click",function(){
     flag = confirm("この投稿を削除しますか？");
     if(flag == true){
         console.log(data.key);
-       console.log();
+       console.log(dataImgpath);
         firebase.database().ref(data.key).remove().then(function(){
+            firebase.storage().ref('shon_wolrd/').child(dataImgpath).delete();
             
             location.reload();
         });
