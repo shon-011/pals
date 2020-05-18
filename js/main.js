@@ -61,11 +61,13 @@ var firebaseConfig = {
     const uname = $("#uname").val();
     const text = $("#text").val();
             let now = new Date();  //Time取得
+            let getMonth = now.getMonth();
+            let getDate = now.getDate();
             let timeH = now.getHours();     //時間
             let timeM = now.getMinutes();      //分
                 if(timeH<10){timeH ="0" + timeH}     //数字が一桁の場合０をつける。
                 if(timeM<10){timeM ="0" + timeM}
-    const time = `${timeH}:${timeM}`;         //時間：分を"time"に入れる
+    const time = `${getMonth}/${getDate}   ${timeH}:${timeM}`;         //時間：分を"time"に入れる
         
      const msg = {
         imgUrl: imgUrl, 
@@ -98,14 +100,13 @@ refText.on("child_added",function(data){
     const dataTime = v.time;
     const dataUname = v.uname;
     const dataText = v.text;
-    const dataAll = `<div class="col mb-4">
+    const dataAll = `
                      <div class="card">
                         <img src="${dataImg}" class="card-img-top" alt="">
                      <div class="card-body">
                         <h5 class="card-title">${dataUname}</h5>
                         <p class="card-text">${dataText}</p>
                         <p class="card-text"><small class="text-muted">${dataTime}</small></p>   
-                     </div>
                      </div>
                      </div> `
     

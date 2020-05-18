@@ -1,20 +1,47 @@
-
+body{
+    background: rgba(43, 48, 56, 0.8);
+}
 .box1{
     background: #ED5466;
 }
 
 .box2{
-    background: white;
+    background: rgba(43, 48, 56, 0.8);
 }
 .title{
     color: white;
 }
 .box3{
     background-color: rgba(43, 48, 56, 0.8);
-    border-radius: 20px;
+    border-radius: 40px;
     
 }
 
+@media screen and (min-width:0px){
+   
+    .card-columns {
+    
+        column-count: 1;
+      }
+  
+  }
+  @media screen and (min-width:992px){
+    .card-columns {
+    
+        column-count: 2;
+      }
+  
+  }
+  @media screen and (min-width:1200px){
+    .card-columns {
+    
+        column-count: 3;
+      }
+  
+  }
+ 
+
+    
 
 
 
