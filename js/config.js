@@ -10,6 +10,17 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  let domain = document.domain;
-let port   = (domain === 'localhost')?  5000:80;
+  import firebase from "firebase/app";
+  import "firebase/auth";
+  
+  const firebaseConfig = {
+      /* firebase config */
+  }
+  
+  // 初期化は一度だけ
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
 
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  firebase.auth().createUserWithEmailAndPassword(email, password)
