@@ -9,3 +9,7 @@ var firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+
+  let domain = document.domain;
+let port   = (domain === 'localhost')?  5000:80;
+

@@ -26,7 +26,11 @@
 
         // 利用する認証機能
         signInOptions: [
-          firebase.auth.EmailAuthProvider.PROVIDER_ID  //メール認証
+        {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+            forceSameDevice: false
+          }
         ],
 
         // 利用規約のURL(任意で設定)

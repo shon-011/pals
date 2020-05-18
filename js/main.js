@@ -56,6 +56,7 @@ var firebaseConfig = {
     let file = e.target.files[0];
     //storage ref を作成 //ファイルのアップロード
     let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
+      
         let url = snapshot.ref.getDownloadURL().then(url =>{
             const imgUrl = url;
     const uname = $("#uname").val();
@@ -76,7 +77,7 @@ var firebaseConfig = {
         time: time
     };
     refText.push(msg);
-    
+    console.log(imgst);
         }
            
         );
@@ -93,6 +94,7 @@ var firebaseConfig = {
 
 // 受信
 refText.on("child_added",function(data){
+    console.log(data)
     const v = data.val();
     const k = data.key;
     
@@ -106,13 +108,26 @@ refText.on("child_added",function(data){
                      <div class="card-body">
                         <h5 class="card-title">${dataUname}</h5>
                         <p class="card-text">${dataText}</p>
-                        <p class="card-text"><small class="text-muted">${dataTime}</small></p>   
+                        <p class="card-text text-right"><small class="text-muted">${dataTime}</small> <button id="del" class="btn">×</button>  </p> 
                      </div>
                      </div> `
     
     $("#output").prepend(dataAll);
     
+$("#del").on("click",function(){
+    flag = confirm("この投稿を削除しますか？");
+    if(flag == true){
+        console.log(data.key);
+       console.log();
+        firebase.database().ref(data.key).remove().then(function(){
+            
+            location.reload();
+        });
+    }else{
 
-
+    }
+   });
+    
 
 });
+
