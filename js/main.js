@@ -3,6 +3,8 @@ $("#btn-home").on("click",function(){
 })
 
 
+
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyCmdOMPI8XDQg_jpLCFnw7SCJBQ0rx2XNQ",
@@ -35,48 +37,47 @@ var firebaseConfig = {
   
  
 
+  function exif() {
+    //exif処理
+    var file_input = $('#fileButton');
+        console.log(file_input);
+    
+    var file = file_input[0].files[0];
+    // EXIF.getDataでexif情報を解析
+        EXIF.getData(file, function() {
+            let data = EXIF.getAllTags(this);
+            console.log(data);
+        
+        let lat0 = data.GPSLatitude[0].numerator;
+        let lat1 = data.GPSLatitude[1].numerator;
+        let lat2 = data.GPSLatitude[2].numerator ;
+
+        let lat1A = lat1 / 60 
+        let lat2A = lat2 / 360000
+        
+        let lat = lat0 + lat1A + lat2A
+        console.log(lat);
 
 
+          
+        let lon0 = data.GPSLongitude[0].numerator;
+        let lon1 = data.GPSLongitude[1].numerator;
+        let lon2 = data.GPSLongitude[2].numerator;
 
+        let lon1A = lon1 / 60 
+        let lon2A = lon2 / 360000
 
+        let lon = lon0 + lon1A + lon2A
+        console.log(lon);
+        return {lat: lat, lon:lon};
+})
+}
 
 
 //  ボタン送信
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
         
-        var file_input = $('#fileButton');
-        console.log(file_input);
-        
-        var file = file_input[0].files[0];
-        // EXIF.getDataでexif情報を解析
-        EXIF.getData(file, function() {
-            let data = EXIF.getAllTags(this);
-            console.log(data);
-            
-            let lat0 = data.GPSLatitude[0].numerator;
-            let lat1 = data.GPSLatitude[1].numerator;
-            let lat2 = data.GPSLatitude[2].numerator ;
-
-            let lat1A = lat1 / 60 
-            let lat2A = lat2 / 360000
-            
-            let lat = lat0 + lat1A + lat2A
-            console.log(lat);
-
-
-              
-            let lon0 = data.GPSLongitude[0].numerator;
-            let lon1 = data.GPSLongitude[1].numerator;
-            let lon2 = data.GPSLongitude[2].numerator;
-
-            let lon1A = lon1 / 60 
-            let lon2A = lon2 / 360000
-
-            let lon = lon0 + lon1A + lon2A
-            console.log(lon);
-    })
-        
-
+        //プレビュー
         $('img').remove();
         var file = $(this).prop('files')[0];
         if(!file.type.match('image.*')){
@@ -87,9 +88,13 @@ var firebaseConfig = {
             $('#result').html('<img  src="' + fileReader.result + '"/>');
         }
         fileReader.readAsDataURL(file);
+        $("file-label").html(e.target.files[0])
+
+        
         
 
-        $("file-label").html(e.target.files[0])
+
+       
     $("#send").on("click",function(){
         
     //画像うｐ
@@ -102,6 +107,7 @@ var firebaseConfig = {
         let imgpath = firebase.storage().ref('shon_wolrd/').child(file.name).fullPath
        
         let url = snapshot.ref.getDownloadURL().then(url =>{
+           
            
             const path = file.name;
             const imgUrl = url;
@@ -129,11 +135,12 @@ var firebaseConfig = {
             refText.push(msg);
    
         });
+    } );
     });
     
     
     
-        });
+       
     });
     
 
@@ -167,7 +174,7 @@ refText.on("child_added",function(data){
                      <script>
                      $("#btnmap").on("click",function(){
                         var opts = {
-                            zoom: 2,
+                            zoom: 10,
                             center: new google.maps.LatLng(33.354747,130.265603)
                           };
                           var map = new google.maps.Map(document.getElementById("map"), opts);
