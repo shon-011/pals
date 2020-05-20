@@ -35,7 +35,8 @@ var firebaseConfig = {
   
  
 
-
+let lat;
+let lon;
 
 
 
@@ -43,40 +44,9 @@ var firebaseConfig = {
 
 //  ボタン送信
     fileButton.addEventListener("change",function(e){   //ファイルを選択→送信でput〇
-        
-        var file_input = $('#fileButton');
-        console.log(file_input);
-        
-        var file = file_input[0].files[0];
-        // EXIF.getDataでexif情報を解析
-        EXIF.getData(file, function() {
-            let data = EXIF.getAllTags(this);
-            console.log(data);
-            
-            let lat0 = data.GPSLatitude[0].numerator;
-            let lat1 = data.GPSLatitude[1].numerator;
-            let lat2 = data.GPSLatitude[2].numerator ;
-
-            let lat1A = lat1 / 60 
-            let lat2A = lat2 / 360000
-            
-            let lat = lat0 + lat1A + lat2A
-            console.log(lat);
 
 
-              
-            let lon0 = data.GPSLongitude[0].numerator;
-            let lon1 = data.GPSLongitude[1].numerator;
-            let lon2 = data.GPSLongitude[2].numerator;
-
-            let lon1A = lon1 / 60 
-            let lon2A = lon2 / 360000
-
-            let lon = lon0 + lon1A + lon2A
-            console.log(lon);
-    })
-        
-
+        // preview
         $('img').remove();
         var file = $(this).prop('files')[0];
         if(!file.type.match('image.*')){
@@ -87,25 +57,66 @@ var firebaseConfig = {
             $('#result').html('<img  src="' + fileReader.result + '"/>');
         }
         fileReader.readAsDataURL(file);
-        
+        $("file-label").html(e.target.files[0]);
 
-        $("file-label").html(e.target.files[0])
+    // get exif
+    var file_input = $('#fileButton');
+    console.log(file_input);
+    
+    var file = file_input[0].files[0];
+    // EXIF.getDataでexif情報を解析
+    EXIF.getData(file, function() {
+        let data = EXIF.getAllTags(this);
+        console.log(data);
+            
+            let lat0 = data.GPSLatitude[0].numerator;
+            let lat1 = data.GPSLatitude[1].numerator;
+            let lat2 = data.GPSLatitude[2].numerator ;
+
+            let lat1A = lat1 / 60 
+            let lat2A = lat2 / 360000
+            
+            let lat = lat0 + lat1A + lat2A
+            
+
+
+            
+                let lon0 = data.GPSLongitude[0].numerator;
+                let lon1 = data.GPSLongitude[1].numerator;
+                let lon2 = data.GPSLongitude[2].numerator;
+
+                let lon1A = lon1 / 60 
+                let lon2A = lon2 / 360000
+
+            let lon = lon0 + lon1A + lon2A    
+        
+        
+    });
+    
+
     $("#send").on("click",function(){
         
-    //画像うｐ
+    
+        
+    //img upload
     //ファイル名を取得
     let file = e.target.files[0];
-        
         
     //storage ref を作成 //ファイルのアップロード
     let storageRef = firebase.storage().ref('shon_wolrd/').child(file.name).put(file).then(snapshot => {
         let imgpath = firebase.storage().ref('shon_wolrd/').child(file.name).fullPath
+        
+        
+            
        
         let url = snapshot.ref.getDownloadURL().then(url =>{
+
+            
            
             const path = file.name;
             const imgUrl = url;
-
+            console.log(lat,lon)
+            
             const uname = $("#uname").val();
             const text = $("#text").val();
 
@@ -120,6 +131,8 @@ var firebaseConfig = {
         
             const msg = {
                 
+                lat: "a",
+                lon: "b",
                 imgpath:path,
                 imgUrl: imgUrl, 
                 uname: uname,
@@ -130,11 +143,14 @@ var firebaseConfig = {
    
         });
     });
+    });
     
     
     
         });
-    });
+
+    
+    
     
 
 
@@ -158,7 +174,7 @@ refText.on("child_added",function(data){
                         <img src="${dataImg}" class="card-img-top" alt="">
                      <div class="card-body">
                      
-                        <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Modal2">...</button>
+                        <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Moda2">...</button>
                         <h5 class="card-title">${dataUname} </h5>
                         <p class="card-text">${dataText}</p>
                        <p class="card-text text-right"><small class="text-muted">${dataTime}</small> <button id="del" class="btn">×</button>  </p> 
