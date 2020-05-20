@@ -32,6 +32,9 @@ var firebaseConfig = {
     });
 
   const refText = firebase.database().ref();
+  
+ 
+
 
 
 
@@ -154,12 +157,22 @@ refText.on("child_added",function(data){
                      <div class="card">
                         <img src="${dataImg}" class="card-img-top" alt="">
                      <div class="card-body">
-                     <div id="map" style="width:100%; height:40px"></div>
+                     
+                        <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Modal2">...</button>
                         <h5 class="card-title">${dataUname} </h5>
                         <p class="card-text">${dataText}</p>
                        <p class="card-text text-right"><small class="text-muted">${dataTime}</small> <button id="del" class="btn">×</button>  </p> 
                      </div>
                      </div>
+                     <script>
+                     $("#btnmap").on("click",function(){
+                        var opts = {
+                            zoom: 2,
+                            center: new google.maps.LatLng(33.354747,130.265603)
+                          };
+                          var map = new google.maps.Map(document.getElementById("map"), opts);
+                    })
+                    </script>
                      `
     
    
