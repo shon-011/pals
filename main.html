@@ -21,7 +21,6 @@
                         <h1 class="title offset-2 "> Pals. <button id="btn-home" class="btn btn-secondary ml-5">  <i class="fas fa-home" ></i> </button>
                           <button type="button" class="btn btn-secondary " data-toggle="modal" data-target="#Modal1"> <i class="fas fa-plus"></i></button>
                         </h1>
-                      
                     </div>
                 </div>
             </div>
@@ -32,95 +31,98 @@
 
 
   
-<!-- コンテンツ表示画面 -->
+    <!-- コンテンツ表示画面 -->
 
 
-<div class="container">
-  
-<!-- カード -->
+    <div class="container">
+        
+      <!-- カード -->
 
-<div class="row">
-<div class="box2 col-12">
-  
-<div id="output" class="card-columns ">
-  
-</div>
-</div>
-</div>
-
-
-
-
-
-
-  <!-- Modal1 -->
-<div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Post</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+      <div class="row">
+        <div class="box2 col-12">
+          <div id="output" class="card-columns ">
+            
+          </div>
         </div>
-        <div class="modal-body">
-            <!-- ファイル -->
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01">写真選択</span>
-                </div>
-                <div class="custom-file">
-                  <input id="fileButton" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                  <label  class="custom-file-label" for="inputGroupFile01"></label>
-                </div>
+      </div>
+
+
+
+
+
+
+        <!-- Modal1 Post -->
+      <div class="modal fade" id="Modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Post</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <!--Select imgFile -->
+                  <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupFileAddon01">写真選択</span>
+                        </div>
+                        <div class="custom-file">
+                          <input id="fileButton" type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                          <label  class="custom-file-label" for="inputGroupFile01"></label>
+                        </div>
+                  </div>
+                    <!--imgPreView-->
+                    <div id="result" class="result "></div> 
+
+                    
+
+                    <!-- UserName -->
+                    <div class="input-group flex-nowrap mt-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="addon-wrapping">@</span>
+                      </div>
+                      <input type="text" id="uname" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
+                    </div>
+
+                    <!-- Text -->
+                    <div class="input-group mt-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">コメント</span>
+                      </div>
+                      <textarea  id="text" class="form-control" aria-label="With textarea"></textarea>
+                    </div>
+                
               </div>
 
-              <div id="result" class="result ">
-
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="send" type="button" class="btn btn-primary">Post</button>
               </div>
-
-              <!-- ユーザーネーム -->
-              <div class="input-group flex-nowrap mt-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="addon-wrapping">@</span>
-                </div>
-                <input type="text" id="uname" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
-              </div>
-
-              <!-- テキスト -->
-              <div class="input-group mt-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">コメント</span>
-                </div>
-                <textarea  id="text" class="form-control" aria-label="With textarea"></textarea>
-              </div>
+            </div>
+          </div>
+        </div>
           
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="send" type="button" class="btn btn-primary">Post</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-    <!-- Modal 2-->
-<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span></button>
-      
-      <div class="modal-body">
-        <div id="map" style="width:100%; height:600px"></div>
-      </div>
-      
-    </div>
-  </div>
-</div>
 
 
-<!--/ コンテンツ表示画面 -->
+
+          <!-- Modal 2 Map-->
+      <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            
+            <div class="modal-body">
+              <div id="map" style="width:100%; height:600px"></div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+    <!--/ コンテンツ表示画面 -->
 
 
 
@@ -136,18 +138,16 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <!-- bootstrap -->
+
 <!-- exif -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <!-- exif -->
+
 <!-- map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARhDmyxQ_PrrfpPaD1vGIjubVpalaIukQ"async defer></script>
 <!-- map -->
     
 <script type="text/javascript" src="js/main.js"></script>
-<script>
-    //Initialization processing
-   
-</script>
 
 </body>
 </html>
