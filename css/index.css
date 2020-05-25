@@ -1,0 +1,23 @@
+body {
+  width: 100vw;
+}
+.title {
+  color: white;
+  text-align: center;
+  padding-top: 5%;
+}
+.label1 {
+  color: white;
+}
+.row {
+  width: 100vw;
+  height: 100vh;
+  
+}
+.col {
+  background-image: url(../img/1.jpg);
+  background-size: cover;
+}
+.col2{
+    background-color:rgb(36, 33, 33,0.8);
+}
