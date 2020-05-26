@@ -10,25 +10,58 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const refDB = firebase.database();
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
     if (user != null) {
       name = user.displayName;
+      uid = user.uid;
       email = user.email;
       photoUrl = user.photoURL;
-      console.log(name);
-      console.log(email);
-    } else {
-      console.log("noName");
+
+      const userInfo = {
+        name: name,
+        uid: uid,
+        email: email,
+      };
+      //user情報をusersに保存
+      refDB.ref(`users/${uid}`).set(userInfo);
+      
+     
     }
   } else {
     // No user is signed in.
     location.href = "index.html";
   }
 
-  $("#top").html(`Hello ${name}`);
-
+  $("#top").html(`Hello ${name} email:${email}`);
 });
 
+$("#enterNewWorld").on("click", function () {
+  const worldName = $("#newWorldName").val();
+  const worldInfo = {
+    worldName: worldName,
+    users: uid,
+  };
+
+  //ワールド情報を/world/に保存
+  refDB
+    .ref("world/")
+    .push(worldInfo)
+    .then(function (data) {
+     console.log(data);
+      worldKey = data.key;
+      const pushWorldKey = {
+          worldKey: worldKey,
+      }
+    
+
+      //   ワールド情報を / users / world / に保存
+      refDB.ref(`users/${uid}/world/`).set(pushWorldKey);
+    
+    
+    $("#newWorldName").val("");
+});
+});

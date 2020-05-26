@@ -4,7 +4,8 @@ body {
 .title {
   color: white;
   text-align: center;
-  padding-top: 5%;
+  font-size: 20vw;
+  padding-top: 2%;
 }
 .label1 {
   color: white;
@@ -19,5 +20,5 @@ body {
   background-size: cover;
 }
 .col2{
-    background-color:rgb(36, 33, 33,0.8);
+    background-color:rgba(175, 175, 175, 0.8);
 }

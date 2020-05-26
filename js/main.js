@@ -15,7 +15,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const refText = firebase.database().ref();
+const refText = firebase.database().ref("world/world0/timeLine");
 
 // FirebaseSet
 var storage = firebase.storage();
