@@ -1,5 +1,6 @@
 body {
   background: rgba(43, 48, 56, 0.8);
+  width: 100vw;
 }
 .box1 {
   background: #ed5466;

@@ -31,155 +31,150 @@ firebase.auth().onAuthStateChanged(function (user) {
     location.href = "index.html";
   }
   $("#top1").html(`Hello ${name} `);
-});
 
-const refText = firebase.database().ref(`world/timeLine`);
+  const refText = firebase.database().ref(`world/timeLine`);
 
-// FirebaseSet
-var storage = firebase.storage();
+  // FirebaseSet
+  var storage = firebase.storage();
 
-//getGPS by exif-API
-function exif() {
-  
-  return new Promise((resolve, reject) => {
-    //同期化処理
-    var file_input = $("#fileButton");
-    var file = file_input[0].files[0];
-    
-    
-    // EXIF.getDataでexif情報を解析
-    EXIF.getData(file, function () {
-      let gpsData = EXIF.getAllTags(this);
-      console.log(gpsData);
-      if(gpsData.GPSLatitude != undefined){
-      //lat
-      let lat0 = gpsData.GPSLatitude[0].numerator;
-      let lat1 = gpsData.GPSLatitude[1].numerator;
-      let lat2 = gpsData.GPSLatitude[2].numerator;
-      //60進数→10進数
-      let lat1A = lat1 / 60;
-      let lat2A = lat2 / 360000;
-      let lat = lat0 + lat1A + lat2A;
+  //getGPS by exif-API
+  function exif() {
+    return new Promise((resolve, reject) => {
+      //同期化処理
+      var file_input = $("#fileButton");
+      var file = file_input[0].files[0];
 
-      //lon
-      let lon0 = gpsData.GPSLongitude[0].numerator;
-      let lon1 = gpsData.GPSLongitude[1].numerator;
-      let lon2 = gpsData.GPSLongitude[2].numerator;
-      //60進数→10進数
-      let lon1A = lon1 / 60;
-      let lon2A = lon2 / 360000;
-      let lon = lon0 + lon1A + lon2A;
+      // EXIF.getDataでexif情報を解析
+      EXIF.getData(file, function () {
+        let gpsData = EXIF.getAllTags(this);
+        console.log(gpsData);
+        if (gpsData.GPSLatitude != undefined) {
+          //lat
+          let lat0 = gpsData.GPSLatitude[0].numerator;
+          let lat1 = gpsData.GPSLatitude[1].numerator;
+          let lat2 = gpsData.GPSLatitude[2].numerator;
+          //60進数→10進数
+          let lat1A = lat1 / 60;
+          let lat2A = lat2 / 360000;
+          let lat = lat0 + lat1A + lat2A;
 
-      resolve([lat, lon]);
-    }else{
-      let lat = 0;
-      let lon = 0;
-      resolve([lat, lon]);
-    }
+          //lon
+          let lon0 = gpsData.GPSLongitude[0].numerator;
+          let lon1 = gpsData.GPSLongitude[1].numerator;
+          let lon2 = gpsData.GPSLongitude[2].numerator;
+          //60進数→10進数
+          let lon1A = lon1 / 60;
+          let lon2A = lon2 / 360000;
+          let lon = lon0 + lon1A + lon2A;
+
+          resolve([lat, lon]);
+        } else {
+          let lat = 0;
+          let lon = 0;
+          resolve([lat, lon]);
+        }
+      });
     });
-  });
-}
-
-// putCardInfo
-//selctFile
-let fileButton = document.querySelector("#fileButton");
-fileButton.addEventListener("change", function (e) {
-  //ファイルを選択→送信でput〇
-  //preView
-  $("img").remove();
-  var file = $(this).prop("files")[0];
-  if (!file.type.match("image.*")) {
-    return;
   }
-  var fileReader = new FileReader();
-  fileReader.onloadend = function () {
-    $("#result").html('<img  src="' + fileReader.result + '"/>');
-  };
-  fileReader.readAsDataURL(file);
-  $("file-label").html(e.target.files[0]);
 
-  //Put
-  $("#send").on("click", function () {
-    //imgData
-    //getImgData
-    let file = e.target.files[0];
+  // putCardInfo
+  //selctFile
+  let fileButton = document.querySelector("#fileButton");
+  fileButton.addEventListener("change", function (e) {
+    //ファイルを選択→送信でput〇
+    //preView
+    $("img").remove();
+    var file = $(this).prop("files")[0];
+    if (!file.type.match("image.*")) {
+      return;
+    }
+    var fileReader = new FileReader();
+    fileReader.onloadend = function () {
+      $("#result").html('<img  src="' + fileReader.result + '"/>');
+    };
+    fileReader.readAsDataURL(file);
+    $("file-label").html(e.target.files[0]);
 
-    //storage ref を作成 //UP lode imgData
-    let storageRef = firebase
-      .storage()
-      .ref("wolrd/")
-      .child(file.name)
-      .put(file)
-      .then((snapshot) => {
-        let imgpath = firebase.storage().ref("wolrd/").child(file.name)
-          .fullPath;
+    //Put
+    $("#send").on("click", function () {
+      //imgData
+      //getImgData
+      let file = e.target.files[0];
 
-        //get imgURL
-        let url = snapshot.ref.getDownloadURL().then((url) => {
-          //get img GPS
-          exif().then(function (gps) {
-            
+      //storage ref を作成 //UP lode imgData
+      let storageRef = firebase
+        .storage()
+        .ref("wolrd/")
+        .child(file.name)
+        .put(file)
+        .then((snapshot) => {
+          let imgpath = firebase.storage().ref("wolrd/").child(file.name)
+            .fullPath;
+
+          //get imgURL
+          let url = snapshot.ref.getDownloadURL().then((url) => {
+            //get img GPS
+            exif().then(function (gps) {
               let lat = gps[0];
               let lon = gps[1];
-            
-            
-            //GPSData
-            const la = lat;
-            const lo = lon;
-            //imgData
-            const path = file.name;
-            const imgUrl = url;
 
-            //textData
-            const uname = $("#uname").val();
-            const text = $("#text").val();
+              //GPSData
+              const la = lat;
+              const lo = lon;
+              //imgData
+              const path = file.name;
+              const imgUrl = url;
 
-            //dateData
-            let now = new Date(); //Time取得
-            let getMonth = now.getMonth();
-            let getDate = now.getDate();
-            let timeH = now.getHours(); //時間
-            let timeM = now.getMinutes(); //分
-            if (timeH < 10) {
-              timeH = "0" + timeH;
-            } //数字が一桁の場合０をつける。
-            if (timeM < 10) {
-              timeM = "0" + timeM;
-            }
-            const time = `${getMonth}/${getDate}   ${timeH}:${timeM}`; //時間：分を"time"に入れる
+              //textData
+              const uname = $("#uname").val();
+              const text = $("#text").val();
 
-            //sendData
-            const msg = {
-              lat: la,
-              lon: lo,
-              imgpath: path,
-              imgUrl: imgUrl,
-              uname: uname,
-              text: text,
-              time: time,
-            };
-            refText.push(msg);
+              //dateData
+              let now = new Date(); //Time取得
+              let getMonth = now.getMonth();
+              let getDate = now.getDate();
+              let timeH = now.getHours(); //時間
+              let timeM = now.getMinutes(); //分
+              if (timeH < 10) {
+                timeH = "0" + timeH;
+              } //数字が一桁の場合０をつける。
+              if (timeM < 10) {
+                timeM = "0" + timeM;
+              }
+              const time = `${getMonth}/${getDate}   ${timeH}:${timeM}`; //時間：分を"time"に入れる
+
+              //sendData
+              const msg = {
+                lat: la,
+                lon: lo,
+                imgpath: path,
+                imgUrl: imgUrl,
+                uname: name,
+                text: text,
+                time: time,
+              };
+              refText.push(msg);
+            });
           });
         });
-      });
-  });
-}); //rink at change
+    });
+  }); //rink at change
 
-// Receive
-refText.on("child_added", function (data) {
-  console.log(data);
+  // Receive
+  refText.on("child_added", function (data) {
+    console.log(data);
 
-  const val = data.val();
-  const key = data.key;
+    const val = data.val();
+    const key = data.key;
 
-  const lat = val.lat;
-  const lon = val.lon;
-  const dataImgpath = val.imgpath;
-  const dataImg = val.imgUrl;
-  const dataTime = val.time;
-  const dataUname = val.uname;
-  const dataText = val.text;
-  const dataAll = `
+    const lat = val.lat;
+    const lon = val.lon;
+    const dataImgpath = val.imgpath;
+    const dataImg = val.imgUrl;
+    const dataTime = val.time;
+    const dataUname = val.uname;
+    const dataText = val.text;
+    const dataAll = `
                     <div class="card">
                             <img src="${dataImg}" class="card-img-top" alt="">
                         <div class="card-body">
@@ -209,24 +204,25 @@ refText.on("child_added", function (data) {
                         })
                     </script>`;
 
-  //Output Card
-  $("#output").prepend(dataAll);
+    //Output Card
+    $("#output").prepend(dataAll);
 
-  $("#del").on("click", function () {
-    flag = confirm("この投稿を削除しますか？");
-    console.log(data);
-    
-    console.log(data.key);
-    console.log(dataImgpath);
-    if (flag == true) {
-      firebase
-        .database()
-        .ref(`world/timeLine/${data.key}`)
-        .remove()
-        .then(function () {
-          firebase.storage().ref("wolrd/").child(dataImgpath).delete();
-          location.reload();
-        });
-    }
+    $("#del").on("click", function () {
+      flag = confirm("この投稿を削除しますか？");
+      console.log(data);
+
+      console.log(data.key);
+      console.log(dataImgpath);
+      if (flag == true) {
+        firebase
+          .database()
+          .ref(`world/timeLine/${data.key}`)
+          .remove()
+          .then(function () {
+            firebase.storage().ref("wolrd/").child(dataImgpath).delete();
+            location.reload();
+          });
+      }
+    });
   });
 });
