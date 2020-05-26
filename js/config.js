@@ -10,7 +10,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const refUsers = firebase.database().ref("users/");
+const refDB = firebase.database();
 
 //sign in btn
 
@@ -29,11 +29,39 @@ $("#signUp").on("click", function () {
       $("#displayName").val(``);
       $("#upEmail").val(``);
       $("#upPassword").val(``);
-        console.log(result);
-      return firebase.auth().currentUser.updateProfile({
-        displayName: displayName,
+      console.log(result);
+
+     
+
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          if (user != null) {
+            uid = user.uid;
+            email2 = user.email;
+            photoUrl = user.photoURL;
+
+            const userInfo = {
+              uid: uid,
+              email: email2
+            };
+            //user情報をusersに保存
+            refDB.ref(`users/${uid}`).set(userInfo);
+          }
+          $("#log").html(`サインアップ完了。もう一度サインインしてください。`);
+          return firebase.auth().currentUser.updateProfile({
+            displayName: displayName,
+          });
+        } else {
+          // No user is signed in.
+          location.href = "index.html";
+        }
+
+        $("#top").html(`Hello ${name} email:${email}`);
       });
-      location.href="world.html"
+
+       
+      
     })
     .catch(function (error) {
       console.log("signup error");
@@ -56,7 +84,8 @@ $("#signIn").on("click", function () {
       $("#log").html(`ログイン成功`);
       $("#email").val(``);
       $("#password").val(``);
-      location.href="world.html"
+      
+    location.href = "main.html";
     })
     .catch(function (error) {
       console.log("signin error");
@@ -84,17 +113,17 @@ $("#signOut").on("click", function () {
 });
 
 //userInfo
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    //user is signed in
-    const displayName = user.displayName;
-    const email = user.email;
-    const emailVerified = user.emailVerified;
-    const uid = user.uid;
+// firebase.auth().onAuthStateChanged(function (user) {
+//   if (user) {
+//     //user is signed in
+//     const displayName = user.displayName;
+//     const email = user.email;
+//     const emailVerified = user.emailVerified;
+//     const uid = user.uid;
 
-    $("#state").html(`Hello ${displayName}.`);
-    console.log(email);
-    console.log(displayName);
-    console.log(uid);
-  }
-});
+//     $("#state").html(`Hello ${displayName}.`);
+//     console.log(email);
+//     console.log(displayName);
+//     console.log(uid);
+//   }
+// });

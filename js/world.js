@@ -11,7 +11,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const refDB = firebase.database();
-
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
@@ -20,22 +19,11 @@ firebase.auth().onAuthStateChanged(function (user) {
       uid = user.uid;
       email = user.email;
       photoUrl = user.photoURL;
-
-      const userInfo = {
-        name: name,
-        uid: uid,
-        email: email,
-      };
-      //user情報をusersに保存
-      refDB.ref(`users/${uid}`).set(userInfo);
-      
-     
     }
   } else {
     // No user is signed in.
     location.href = "index.html";
   }
-
   $("#top").html(`Hello ${name} email:${email}`);
 });
 
@@ -56,12 +44,17 @@ $("#enterNewWorld").on("click", function () {
       const pushWorldKey = {
           worldKey: worldKey,
       }
-    
+
 
       //   ワールド情報を / users / world / に保存
-      refDB.ref(`users/${uid}/world/`).set(pushWorldKey);
+      refDB.ref(`users/${uid}/world/`).push(pushWorldKey);
     
     
     $("#newWorldName").val("");
 });
+});
+
+$("#enterWorld").on("click", function(){
+  const worldId = $("#worldId").val();
+  refDB.ref(`users/${uid}/world/`).push(worldId);
 });

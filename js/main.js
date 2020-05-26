@@ -15,21 +15,43 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const refText = firebase.database().ref("world/world0/timeLine");
+
+const refDB = firebase.database();
+firebase.auth().onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in.
+    if (user != null) {
+      name = user.displayName;
+      uid = user.uid;
+      email = user.email;
+      photoUrl = user.photoURL;
+    }
+  } else {
+    // No user is signed in.
+    location.href = "index.html";
+  }
+  $("#top1").html(`Hello ${name} `);
+});
+
+const refText = firebase.database().ref(`world/timeLine`);
 
 // FirebaseSet
 var storage = firebase.storage();
 
 //getGPS by exif-API
 function exif() {
+  
   return new Promise((resolve, reject) => {
     //同期化処理
     var file_input = $("#fileButton");
     var file = file_input[0].files[0];
+    
+    
     // EXIF.getDataでexif情報を解析
     EXIF.getData(file, function () {
       let gpsData = EXIF.getAllTags(this);
-
+      console.log(gpsData);
+      if(gpsData.GPSLatitude != undefined){
       //lat
       let lat0 = gpsData.GPSLatitude[0].numerator;
       let lat1 = gpsData.GPSLatitude[1].numerator;
@@ -49,6 +71,11 @@ function exif() {
       let lon = lon0 + lon1A + lon2A;
 
       resolve([lat, lon]);
+    }else{
+      let lat = 0;
+      let lon = 0;
+      resolve([lat, lon]);
+    }
     });
   });
 }
@@ -80,19 +107,22 @@ fileButton.addEventListener("change", function (e) {
     //storage ref を作成 //UP lode imgData
     let storageRef = firebase
       .storage()
-      .ref("shon_wolrd/")
+      .ref("wolrd/")
       .child(file.name)
       .put(file)
       .then((snapshot) => {
-        let imgpath = firebase.storage().ref("shon_wolrd/").child(file.name)
+        let imgpath = firebase.storage().ref("wolrd/").child(file.name)
           .fullPath;
 
         //get imgURL
         let url = snapshot.ref.getDownloadURL().then((url) => {
           //get img GPS
           exif().then(function (gps) {
-            let lat = gps[0];
-            let lon = gps[1];
+            
+              let lat = gps[0];
+              let lon = gps[1];
+            
+            
             //GPSData
             const la = lat;
             const lo = lon;
@@ -184,15 +214,17 @@ refText.on("child_added", function (data) {
 
   $("#del").on("click", function () {
     flag = confirm("この投稿を削除しますか？");
+    console.log(data);
+    
     console.log(data.key);
     console.log(dataImgpath);
     if (flag == true) {
       firebase
         .database()
-        .ref(data.key)
+        .ref(`world/timeLine/${data.key}`)
         .remove()
         .then(function () {
-          firebase.storage().ref("shon_wolrd/").child(dataImgpath).delete();
+          firebase.storage().ref("wolrd/").child(dataImgpath).delete();
           location.reload();
         });
     }
