@@ -62,3 +62,8 @@ body {
 a{
   color: black;
 }
+
+#wn,
+#ivID{
+  color: rgb(251, 81, 44);
+}

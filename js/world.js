@@ -50,7 +50,7 @@ $("#enterNewWorld").on("click", function () {
       //   ワールド情報を / users / world / に保存
           worldKey: worldKey,
       refDB.ref(`users/${uid}/world/`).set(worldKey).then(function(){
-        $("#idView").html(`Idは　"${worldKey}" です。`)
+        $("#idView").html(`World ID は　"${worldKey}" です。`)
       });
       
         
