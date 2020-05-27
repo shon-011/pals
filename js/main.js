@@ -3,6 +3,20 @@ $("#btn-home").on("click", function () {
   location.reload();
 });
 
+//signout
+$("#signOut").on("click", function () {
+  firebase
+    .auth()
+    .signOut()
+    .then(function () {
+      location.href = "index.html";
+    })
+    .catch(function (error) {
+      console.log(error);
+      $("#log").html(`サインアウト失敗`);
+    });
+});
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyCmdOMPI8XDQg_jpLCFnw7SCJBQ0rx2XNQ",
@@ -17,6 +31,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const refDB = firebase.database();
+
+
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
@@ -35,19 +51,17 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
   $("#top1").html(`${name} `);
 
-  
-
   const refKey = firebase.database().ref(`users/${nowUid}/world`);
 
-  
+  refKey.once("value", function(data) {
+    
+    const worldKey = data.node_.value_
+ 
+    $("#ivID").html(worldKey);
 
-  refKey.on("child_added", function (data4) {
-   
-    const worldKey = data4.key;
-    const worldName = data4.node_.value_;
+ 
 
-    console.log(worldKey);
-    console.log(worldName);
+
     
     const refText = firebase.database().ref(`world/${worldKey}/timeLine`);
   
@@ -204,7 +218,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                     <div id="${key}" class="card">
                             <img src="${dataImg}" class="card-img-top" alt="">
                         <div class="card-body">
-                            <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Modal2">...</button>
+                            <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Modal2">..Map</button>
                             <h5 class="card-title">${dataUname}</h5>
                             <p class="card-text">${dataText}</p>
                             <p class="card-text text-right">
@@ -262,6 +276,6 @@ firebase.auth().onAuthStateChanged(function (user) {
       }
     });
   })
-  });
+}); 
   
 });

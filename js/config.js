@@ -88,7 +88,7 @@ $("#signIn").on("click", function () {
       $("#email").val(``);
       $("#password").val(``);
       
-    location.href = "main.html";
+    location.href = "world.html";
     })
     .catch(function (error) {
       console.log("signin error");

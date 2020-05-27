@@ -49,7 +49,9 @@ $("#enterNewWorld").on("click", function () {
 
       //   ワールド情報を / users / world / に保存
           worldKey: worldKey,
-      refDB.ref(`users/${uid}/world/${worldKey}`).set(worldName);
+      refDB.ref(`users/${uid}/world/`).set(worldKey).then(function(){
+        $("#idView").html(`Idは　"${worldKey}" です。`)
+      });
       
         
 
@@ -63,5 +65,8 @@ $("#enterNewWorld").on("click", function () {
 
 $("#enterWorld").on("click", function(){
   const worldId = $("#worldId").val();
-  refDB.ref(`users/${uid}/world/`).push(worldId);
+  
+  refDB.ref(`users/${uid}/world/`).set(worldId).then(function(){
+    location.href = "main.html";
+  });
 });
