@@ -3,17 +3,26 @@ body {
   width: 100vw;
 }
 .box1 {
-  background: #ed5466;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to left,
+    #ffffff,
+    #ece9e6
+  ); 
 }
 
 .box2 {
   background: rgba(43, 48, 56, 0.8);
 }
 .title {
-  color: white;
+  color: black;
 }
 .box3 {
-  background-color: rgba(43, 48, 56, 0.8);
+  background-color: rgba(43, 48, 56, 1);
   border-radius: 40px;
 }
 
@@ -36,4 +45,20 @@ body {
 .result img {
   width: 100%;
   height: auto;
+}
+
+.navbar-brand {
+  color: black;
+}
+
+#top1{
+  font-size: 3vw;
+  color: rgb(251, 81, 44);
+}
+.navbar-brand{
+  padding-left: 0.6vw;
+}
+
+a{
+  color: black;
 }

@@ -30,7 +30,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     // No user is signed in.
     location.href = "index.html";
   }
-  $("#top1").html(`Hello ${name} `);
+  $("#top1").html(`${name} `);
 
   const refText = firebase.database().ref(`world/timeLine`);
 
