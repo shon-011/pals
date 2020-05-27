@@ -22,7 +22,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     // User is signed in.
     if (user != null) {
       name = user.displayName;
-      uid = user.uid;
+      nowUid = user.uid;
       email = user.email;
       photoUrl = user.photoURL;
     }
@@ -150,6 +150,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 imgpath: path,
                 imgUrl: imgUrl,
                 uname: name,
+                postUid: nowUid,
                 text: text,
                 time: time,
               };
@@ -166,8 +167,6 @@ firebase.auth().onAuthStateChanged(function (user) {
 
   // Receive
   refText.on("child_added", function (data) {
-    console.log(data);
-
     const val = data.val();
     const key = data.key;
 
@@ -177,6 +176,8 @@ firebase.auth().onAuthStateChanged(function (user) {
     const dataImg = val.imgUrl;
     const dataTime = val.time;
     const dataUname = val.uname;
+    const postUid = val.postUid;
+
     const dataText = val.text;
     const dataAll = `
                     <div id="${key}" class="card">
@@ -193,8 +194,13 @@ firebase.auth().onAuthStateChanged(function (user) {
                      </div>
 
                     <script>
-
-                        if(${lat} ==  0){$("#btnmap").hide();}
+                    if(${lat} ==  0){$("#btnmap").hide();}
+                    firebase.database().ref("world/timeLine").on("child_added", function (data) {
+                      const val = data.val();
+                      const postUid = val.postUid; 
+                        if(postUid !==  nowUid){$("#del").hide();}
+                    })
+                        
                         $("#btnmap").on("click",function(){
                           
                             var opts = {
@@ -211,6 +217,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                           
                             
                         })
+                      
                     </script>`;
 
     //Output Card
