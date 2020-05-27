@@ -156,7 +156,7 @@ firebase.auth().onAuthStateChanged(function (user) {
               refText.push(msg).then(function () {
                 $("#text").val("");
                 $("#fileButton").val("");
-                $("#result").hide();
+                $("#result").remove();
               });
             });
           });
