@@ -21,10 +21,13 @@ firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
     if (user != null) {
+      console.log(user);
+      
       name = user.displayName;
       nowUid = user.uid;
       email = user.email;
       photoUrl = user.photoURL;
+
     }
   } else {
     // No user is signed in.
@@ -32,8 +35,26 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
   $("#top1").html(`${name} `);
 
-  const refText = firebase.database().ref(`world/timeLine`);
+  
 
+  const refKey = firebase.database().ref(`users/${nowUid}/world`);
+
+  
+
+  refKey.on("child_added", function (data4) {
+   
+    const worldKey = data4.key;
+    const worldName = data4.node_.value_;
+
+    console.log(worldKey);
+    console.log(worldName);
+    
+    const refText = firebase.database().ref(`world/${worldKey}/timeLine`);
+  
+  
+  
+  
+  
   // FirebaseSet
   var storage = firebase.storage();
 
@@ -240,5 +261,7 @@ firebase.auth().onAuthStateChanged(function (user) {
           });
       }
     });
+  })
   });
+  
 });

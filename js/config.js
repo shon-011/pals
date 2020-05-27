@@ -40,10 +40,13 @@ $("#signUp").on("click", function () {
             uid = user.uid;
             email2 = user.email;
             photoUrl = user.photoURL;
+            world  = 1
 
             const userInfo = {
               uid: uid,
-              email: email2
+              email: email2,
+              displayName: displayName,
+              world: world
             };
             //user情報をusersに保存
             refDB.ref(`users/${uid}`).set(userInfo);

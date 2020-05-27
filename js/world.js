@@ -41,13 +41,20 @@ $("#enterNewWorld").on("click", function () {
     .then(function (data) {
      console.log(data);
       worldKey = data.key;
-      const pushWorldKey = {
+      const pushWorld = {
           worldKey: worldKey,
+          worldName: worldName
       }
 
 
       //   ワールド情報を / users / world / に保存
-      refDB.ref(`users/${uid}/world/`).push(pushWorldKey);
+          worldKey: worldKey,
+      refDB.ref(`users/${uid}/world/${worldKey}`).set(worldName);
+      
+        
+
+      
+
     
     
     $("#newWorldName").val("");
