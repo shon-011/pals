@@ -83,7 +83,7 @@ firebase.auth().onAuthStateChanged(function (user) {
   fileButton.addEventListener("change", function (e) {
     //ファイルを選択→送信でput〇
     //preView
-    $("img").remove();
+    $("#img").remove();
     var file = $(this).prop("files")[0];
     if (!file.type.match("image.*")) {
       return;
@@ -93,7 +93,7 @@ firebase.auth().onAuthStateChanged(function (user) {
       $("#result").html('<img  src="' + fileReader.result + '"/>');
     };
     fileReader.readAsDataURL(file);
-    $("file-label").html(e.target.files[0]);
+    $("#file-label").html(e.target.files[0]);
 
     //Put
     $("#send").on("click", function () {
@@ -153,7 +153,11 @@ firebase.auth().onAuthStateChanged(function (user) {
                 text: text,
                 time: time,
               };
-              refText.push(msg);
+              refText.push(msg).then(function () {
+                $("#text").val("");
+                $("#fileButton").val("");
+                $("#result").hide();
+              });
             });
           });
         });
@@ -175,7 +179,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     const dataUname = val.uname;
     const dataText = val.text;
     const dataAll = `
-                    <div class="card">
+                    <div id="${key}" class="card">
                             <img src="${dataImg}" class="card-img-top" alt="">
                         <div class="card-body">
                             <button type="button" id="btnmap" class="btn"  data-toggle="modal" data-target="#Modal2">...</button>
@@ -189,18 +193,23 @@ firebase.auth().onAuthStateChanged(function (user) {
                      </div>
 
                     <script>
-                        $("#btnmap").on("click",function(){
-                            var opts = {
-                                zoom: 17,
-                                center: new google.maps.LatLng(${lat},${lon})
-                            };
-                            var map = new google.maps.Map(document.getElementById("map"), opts);
 
-                            marker = new google.maps.Marker({ // マーカーの追加
-                                animation: google.maps.Animation.DROP,
-                                position: new google.maps.LatLng(${lat},${lon}), // マーカーを立てる位置を指定
-                                map: map // マーカーを立てる地図を指定
-                            });
+                        if(${lat} ==  0){$("#btnmap").hide();}
+                        $("#btnmap").on("click",function(){
+                          
+                            var opts = {
+                              zoom: 17,
+                              center: new google.maps.LatLng(${lat},${lon})
+                          };
+                          var map = new google.maps.Map(document.getElementById("map"), opts);
+
+                          marker = new google.maps.Marker({ // マーカーの追加
+                              animation: google.maps.Animation.DROP,
+                              position: new google.maps.LatLng(${lat},${lon}), // マーカーを立てる位置を指定
+                              map: map // マーカーを立てる地図を指定
+                          });
+                          
+                            
                         })
                     </script>`;
 
@@ -220,7 +229,7 @@ firebase.auth().onAuthStateChanged(function (user) {
           .remove()
           .then(function () {
             firebase.storage().ref("wolrd/").child(dataImgpath).delete();
-            location.reload();
+            $(`#${key}`).remove();
           });
       }
     });
