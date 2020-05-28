@@ -1,0 +1,31 @@
+body{
+    background-color: rgb(229, 230, 234);
+    color:  rgb(98, 105, 128);
+    text-align: center;
+}
+#topname{
+    font-size: 20vw;
+}
+#com{
+    color: rgb(251, 81, 44);
+    padding-bottom: 2%;
+}
+#top{
+    
+    color: rgba(43, 48, 56, 1);
+}
+.form1{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    width: 50%;
+}
+.ip{
+    display: none;
+    font-size: 3vw;
+}
+#idView{
+    color: rgb(251, 81, 44);
+}
+.btn{
+    margin-bottom: 1%;
+}

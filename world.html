@@ -11,21 +11,79 @@
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="css/w.css" />
     <title>world</title>
   </head>
   <body>
-    <h1 id="top"></h1>
+    <h1 id="topname">Pals.</h1>
+    <h1 id="com" 　>繋　が　り　た　く　な　い　け　ど　、つながりたい。</h1>
+
+    <h1>Hi..<span id="top"></span></h1>
+
+    <div class="form1 offset-3">
+      <input
+        type="text"
+        name=""
+        id="worldId"
+        placeholder="World ID"
+        class="form-control form-control-lg"
+      />
+    </div>
+
+    <button id="enterWorld" class="btn btn-outline-dark">Enter</button><br />
+
+    <button
+      id="createWorld"
+      class="btn btn-outline-dark"
+      data-toggle="modal"
+      data-target="#signUpModal"
+    >
+      Worldを創る
+    </button>
+
+    <div
+      class="modal fade"
+      id="signUpModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">World Nmae を設定</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input
+              type="text"
+              name=""
+              id="newWorldName"
+              placeholder="World Name"
+              class="form-control form-control-lg"
+            />
+            
+
+            <div class="modal-footer">
+              
+              <button id="enterNewWorld" class="btn btn-secondary active">
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="ip" class="ip">World ID は　<span id="idView"></span>です。</div>
     
-    <h2>worldに入る</h2>
-    <input type="text" name="" id="worldId" placeholder="World ID">
-    <button id="enterWorld">Enter</button>
-
-    <button id="createWorld">worldを創る</button>
-
-    <input type="text" name="" id="newWorldName" placeholder="World Name" >
-    <button id="enterNewWorld" >Create</button>
-
-    <h1 id="idView"></h1>
 
     <!-- The core Firebase JS SDK is always required and must be listed first  -->
     <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase.js"></script>

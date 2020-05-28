@@ -36,7 +36,7 @@ firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     // User is signed in.
     if (user != null) {
-      console.log(user);
+      // console.log(user);
 
       name = user.displayName;
       nowUid = user.uid;
@@ -59,7 +59,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     const refwn = firebase.database().ref(`world/${worldKey}/worldName`);
 
     refwn.once("value", function (data) {
-      console.log(data);
+      // console.log(data);
       const wn = data.node_.value_;
       $("#wn").html(wn);
     });
@@ -227,16 +227,11 @@ firebase.auth().onAuthStateChanged(function (user) {
 
                     <script>
                     if(${lat} ==  0){$("#btnmap").hide();}
-                    firebase.database().ref("world/timeLine").on("child_added", function (data) {
-                      const val = data.val();
-                      const postUid = val.postUid; 
-                        if(postUid !==  nowUid){$("#del").hide();}
-                    })
-                        
+                   
+                    
                         $("#btnmap").on("click",function(){
-                          
                             var opts = {
-                              zoom: 17,
+                              zoom: 10,
                               center: new google.maps.LatLng(${lat},${lon})
                           };
                           var map = new google.maps.Map(document.getElementById("map"), opts);
@@ -250,7 +245,14 @@ firebase.auth().onAuthStateChanged(function (user) {
                             
                         })
                       
-                    </script>`;
+                    </script>`
+
+
+                           
+                    
+                      
+
+
 
       //Output Card
       $("#output").prepend(dataAll);
@@ -262,7 +264,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(data.key);
         console.log(dataImgpath);
         if (flag == true) {
-          firebase
+          if(data.key == nowUid){
+            firebase
             .database()
             .ref(`world/timeLine/${data.key}`)
             .remove()
@@ -270,6 +273,12 @@ firebase.auth().onAuthStateChanged(function (user) {
               firebase.storage().ref("wolrd/").child(dataImgpath).delete();
               $(`#${key}`).remove();
             });
+          }else{
+            alert(`この投稿は削除できません`)
+          }
+
+
+          
         }
       });
     });

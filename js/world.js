@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     // No user is signed in.
     location.href = "index.html";
   }
-  $("#top").html(`Hello ${name} email:${email}`);
+  $("#top").html(`${name} `);
 });
 
 $("#enterNewWorld").on("click", function () {
@@ -50,7 +50,9 @@ $("#enterNewWorld").on("click", function () {
       //   ワールド情報を / users / world / に保存
           worldKey: worldKey,
       refDB.ref(`users/${uid}/world/`).set(worldKey).then(function(){
-        $("#idView").html(`World ID は　"${worldKey}" です。`)
+        $("#ip").show();
+        $("#idView").html(`"${worldKey}" `)
+        
       });
       
         
@@ -70,3 +72,4 @@ $("#enterWorld").on("click", function(){
     location.href = "main.html";
   });
 });
+
